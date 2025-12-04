@@ -1,0 +1,184 @@
+/* =============================================================================
+   VaxaV CRT Theme - CSS Variables
+   Retro Sci-Fi Green Neon Console Aesthetic
+   ============================================================================= */
+
+:root {
+    /* Primary CRT Phosphor Colors */
+    --crt-green: #00ff41;
+    --crt-green-bright: #39ff14;
+    --crt-green-dim: #00cc33;
+    --crt-green-dark: #00661a;
+    --crt-green-glow: rgba(0, 255, 65, 0.5);
+
+    /* Background Colors (Dark Terminal) */
+    --crt-bg-darkest: #000000;
+    --crt-bg-dark: #0a0a0a;
+    --crt-bg-base: #0d1117;
+    --crt-bg-elevated: #161b22;
+    --crt-bg-surface: #1c2128;
+    --crt-bg-hover: #21262d;
+
+    /* Accent Colors (Supporting) */
+    --crt-amber: #ffb000;
+    --crt-amber-dim: #cc8c00;
+    --crt-red: #ff3333;
+    --crt-red-dim: #cc2929;
+    --crt-cyan: #00d4ff;
+    --crt-cyan-dim: #00a8cc;
+    --crt-purple: #bd00ff;
+
+    /* Text Colors */
+    --crt-text-primary: var(--crt-green);
+    --crt-text-bright: var(--crt-green-bright);
+    --crt-text-dim: var(--crt-green-dim);
+    --crt-text-muted: #4a5a4a;
+    --crt-text-disabled: #2a3a2a;
+
+    /* Border Colors */
+    --crt-border: var(--crt-green-dark);
+    --crt-border-dim: #1a3320;
+    --crt-border-bright: var(--crt-green-dim);
+
+    /* Typography - SMALLER FOR DENSE CONTENT */
+    --font-mono: 'Share Tech Mono', 'Consolas', 'Monaco', monospace;
+    --font-display: 'VT323', 'Share Tech Mono', monospace;
+    --font-size-xs: 0.65rem;
+    --font-size-sm: 0.75rem;
+    --font-size-base: 0.85rem;
+    --font-size-lg: 0.95rem;
+    --font-size-xl: 1.1rem;
+    --font-size-2xl: 1.35rem;
+    --font-size-3xl: 1.75rem;
+
+    /* Spacing & Sizing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --border-radius: 2px;
+
+    /* Effects & Animations */
+    --glow-sm: 0 0 5px var(--crt-green-glow);
+    --glow-md: 0 0 10px var(--crt-green-glow), 0 0 20px var(--crt-green-glow);
+    --glow-lg: 0 0 10px var(--crt-green-glow), 0 0 20px var(--crt-green-glow), 0 0 40px var(--crt-green-glow);
+    --glow-text: 0 0 8px var(--crt-green-glow);
+
+    --transition-fast: 0.1s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+
+    /* CRT Effects Settings - VISIBLE */
+    --scanline-opacity: 0.15;
+    --scanline-size: 3px;
+    --flicker-intensity: 0.03;
+}
+
+/* Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-base);
+    color: var(--crt-text-primary);
+    background-color: var(--crt-bg-dark);
+    line-height: 1.4;
+}
+
+::selection {
+    background-color: var(--crt-green);
+    color: var(--crt-bg-darkest);
+}
+
+/* Typography Utilities */
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+.text-glow {
+    text-shadow: var(--glow-text);
+}
+
+.text-glow-intense {
+    text-shadow: var(--glow-md);
+}
+
+.text-primary {
+    color: var(--crt-text-primary);
+}
+
+.text-bright {
+    color: var(--crt-text-bright);
+}
+
+.text-dim {
+    color: var(--crt-text-dim);
+}
+
+.text-muted {
+    color: var(--crt-text-muted);
+}
+
+.text-amber {
+    color: var(--crt-amber);
+}
+
+.text-red {
+    color: var(--crt-red);
+}
+
+.text-cyan {
+    color: var(--crt-cyan);
+}
+
+/* Focus & Accessibility */
+:focus-visible {
+    outline: 1px solid var(--crt-green);
+    outline-offset: 2px;
+    box-shadow: var(--glow-sm);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--crt-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--crt-green-dark);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--crt-green-dim);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--crt-bg-dark);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--crt-green-dark) var(--crt-bg-dark);
+}

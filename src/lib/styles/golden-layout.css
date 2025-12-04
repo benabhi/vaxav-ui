@@ -1,170 +1,305 @@
-/* Golden Layout Custom Styles - VaxaV Sci-Fi Theme */
+/* =============================================================================
+   Golden Layout - VaxaV CRT Retro Sci-Fi Theme
+   ============================================================================= */
 
-/* Import Golden Layout base styles */
 @import 'golden-layout/dist/css/goldenlayout-base.css';
-@import 'golden-layout/dist/css/themes/goldenlayout-dark-theme.css';
 
-/* CSS Variables for theming */
+/* CSS Variables */
 :root {
-    --gl-color-bg-base: #111827;
-    --gl-color-bg-header: #1f2937;
-    --gl-color-bg-tabs: #374151;
-    --gl-color-border: #4b5563;
-    --gl-color-text: #f3f4f6;
-    --gl-color-text-dim: #9ca3af;
-    --gl-color-accent: #06b6d4;
-    --gl-color-accent-hover: #0891b2;
-    --gl-border-radius: 4px;
+    --gl-bg-base: var(--crt-bg-base);
+    --gl-bg-header: var(--crt-bg-elevated);
+    --gl-bg-tabs: var(--crt-bg-surface);
+    --gl-border: var(--crt-border);
+    --gl-border-bright: var(--crt-border-bright);
+    --gl-text: var(--crt-text-primary);
+    --gl-text-dim: var(--crt-text-dim);
+    --gl-text-muted: var(--crt-text-muted);
+    --gl-accent: var(--crt-green);
+    --gl-accent-dim: var(--crt-green-dim);
+    --gl-accent-glow: var(--crt-green-glow);
+    --gl-close-color: var(--crt-red);
+    --gl-header-height: 26px;
 }
 
-/* Container */
+/* Main Container */
 .lm_goldenlayout {
-    background: var(--gl-color-bg-base);
+    background: var(--gl-bg-base);
 }
 
 /* Headers */
 .lm_header {
-    background: var(--gl-color-bg-header);
-    border-bottom: 1px solid var(--gl-color-border);
-    height: 32px;
+    background: var(--gl-bg-header) !important;
+    border-bottom: 1px solid var(--gl-border) !important;
+    height: var(--gl-header-height) !important;
+    min-height: var(--gl-header-height) !important;
+    max-height: var(--gl-header-height) !important;
+    font-family: var(--font-mono);
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Tabs container */
+.lm_tabs {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
 }
 
 /* Tabs */
 .lm_tab {
-    background: transparent;
-    color: var(--gl-color-text-dim);
-    border: none;
-    padding: 0 12px;
-    font-size: 13px;
-    transition: all 0.2s ease;
+    background: transparent !important;
+    color: var(--gl-text-dim) !important;
+    border: none !important;
+    padding: 0 10px !important;
+    height: var(--gl-header-height) !important;
+    font-size: 10px !important;
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.15s ease;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
 }
 
 .lm_tab:hover {
-    background: rgba(6, 182, 212, 0.1);
-    color: var(--gl-color-text);
+    background: rgba(0, 255, 65, 0.1) !important;
+    color: var(--gl-text) !important;
+    text-shadow: 0 0 5px var(--gl-accent-glow);
 }
 
 .lm_tab.lm_active {
-    background: var(--gl-color-bg-base);
-    color: var(--gl-color-accent);
-    border-bottom: 2px solid var(--gl-color-accent);
+    background: var(--gl-bg-base) !important;
+    color: var(--gl-accent) !important;
+    border-bottom: 2px solid var(--gl-accent) !important;
+    text-shadow: 0 0 8px var(--gl-accent-glow);
 }
 
-/* Tab close button */
+/* Tab title */
+.lm_title {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    line-height: 1 !important;
+    white-space: nowrap;
+    font-size: 10px !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* Tab icon */
+.tab-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.tab-icon svg {
+    width: 12px !important;
+    height: 12px !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    fill: none !important;
+    display: block !important;
+}
+
+.lm_tab.lm_active .tab-icon svg {
+    filter: drop-shadow(0 0 3px var(--gl-accent-glow));
+}
+
+/* Tab Close Button */
 .lm_close_tab {
-    color: var(--gl-color-text-dim);
-    width: 16px;
-    height: 16px;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    width: 12px !important;
+    height: 12px !important;
+    opacity: 0.5;
+    transition: all 0.15s ease;
+    margin-left: 4px !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .lm_close_tab:hover {
     opacity: 1;
-    color: #ef4444;
+    color: var(--gl-close-color);
 }
 
-/* Tab dropdown (popout, maximize, etc.) */
+/* Header Controls */
 .lm_controls {
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px;
+    margin-right: 4px;
+    height: 100% !important;
+    margin-left: auto;
+    padding-left: 8px;
+    border-left: 1px solid var(--gl-border);
 }
 
-.lm_controls:hover {
-    opacity: 1;
-}
-
+/* Control buttons - FULL RESET + CENTERED */
 .lm_controls>li {
-    background: transparent;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+    /* Full reset */
+    all: unset !important;
+    /* Explicit sizing */
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    /* Flexbox centering */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Visual */
+    background: transparent !important;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.15s ease, background 0.15s ease;
+    border-radius: 2px;
+    color: var(--gl-text-dim);
+    box-sizing: border-box !important;
 }
 
 .lm_controls>li:hover {
     opacity: 1;
-    background: rgba(6, 182, 212, 0.1);
+    background: rgba(0, 255, 65, 0.15) !important;
 }
 
-/* Content panels */
+/* SVG inside control buttons */
+.lm_controls>li>svg,
+.lm_maximise>svg,
+.lm_close>svg {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    fill: none !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+    margin: auto !important;
+}
+
+/* Maximize button */
+.lm_maximise {
+    all: unset !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    opacity: 0.7;
+    color: var(--gl-text-dim);
+    border-radius: 2px;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.lm_maximise:hover {
+    opacity: 1;
+    color: var(--gl-accent) !important;
+    background: rgba(0, 255, 65, 0.15) !important;
+}
+
+.lm_maximise:hover svg {
+    filter: drop-shadow(0 0 3px var(--gl-accent-glow));
+}
+
+/* Close button */
+.lm_close {
+    all: unset !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    opacity: 0.7;
+    color: var(--gl-text-dim);
+    border-radius: 2px;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.lm_close:hover {
+    opacity: 1;
+    color: var(--gl-close-color) !important;
+    background: rgba(255, 51, 51, 0.15) !important;
+}
+
+.lm_close:hover svg {
+    filter: drop-shadow(0 0 3px rgba(255, 51, 51, 0.5));
+}
+
+/* Content Panels */
 .lm_content {
-    background: var(--gl-color-bg-base);
-    border: none;
+    background: var(--gl-bg-base) !important;
+    border: none !important;
+    overflow: hidden;
 }
 
 /* Splitters */
 .lm_splitter {
-    background: var(--gl-color-border);
-    opacity: 0.5;
-    transition: opacity 0.2s ease;
+    background: var(--gl-border) !important;
+    opacity: 0.6;
+    transition: all 0.15s ease;
 }
 
 .lm_splitter:hover {
     opacity: 1;
-    background: var(--gl-color-accent);
+    background: var(--gl-accent) !important;
+    box-shadow: 0 0 8px var(--gl-accent-glow);
 }
 
-/* Drag proxy */
+/* Drag Proxy */
 .lm_dragProxy {
-    border: 2px solid var(--gl-color-accent);
-    background: rgba(6, 182, 212, 0.1);
+    border: 2px solid var(--gl-accent) !important;
+    background: rgba(0, 255, 65, 0.1) !important;
+    box-shadow: 0 0 20px var(--gl-accent-glow);
 }
 
-.lm_dragProxy .lm_header {
-    background: var(--gl-color-accent);
-}
-
-.lm_dragProxy .lm_tab {
-    color: white;
-}
-
-/* Drop zones */
+/* Drop Target */
 .lm_dropTargetIndicator {
-    background: rgba(6, 182, 212, 0.2);
-    border: 2px dashed var(--gl-color-accent);
+    background: rgba(0, 255, 65, 0.15) !important;
+    border: 2px dashed var(--gl-accent) !important;
 }
 
-/* Maximized items */
+/* Maximized State */
 .lm_maximised {
-    border: 1px solid var(--gl-color-border);
-}
-
-/* Popout windows */
-.lm_popin {
-    cursor: pointer;
+    border: 1px solid var(--gl-border-bright) !important;
 }
 
 /* Stack */
 .lm_stack {
-    background: var(--gl-color-bg-base);
+    background: var(--gl-bg-base) !important;
 }
 
-/* Panel title when no tabs */
-.lm_title {
-    color: var(--gl-color-text);
-    font-size: 14px;
-    font-weight: 500;
+/* Scrollbar */
+.lm_item_container {
+    overflow: auto;
 }
 
-/* Transitions */
-.lm_transition {
-    transition: all 0.2s ease;
-}
-
-/* Custom scrollbar for panel content */
 .lm_item_container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
 }
 
 .lm_item_container::-webkit-scrollbar-track {
-    background: var(--gl-color-bg-base);
+    background: var(--gl-bg-base);
 }
 
 .lm_item_container::-webkit-scrollbar-thumb {
-    background: var(--gl-color-border);
-    border-radius: 4px;
+    background: var(--gl-border);
+    border-radius: 2px;
 }
 
 .lm_item_container::-webkit-scrollbar-thumb:hover {
-    background: var(--gl-color-accent);
+    background: var(--gl-accent-dim);
 }

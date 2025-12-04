@@ -1,153 +1,127 @@
 # VaxaV 🚀
 
-**VaxaV** es un juego web asíncrono de ciencia ficción espacial donde asumes el papel de un piloto en un universo persistente. Inspirado en títulos como **EVE Online**, **OGame** y la saga **X de Egosoft**, VaxaV combina gestión de recursos, comercio interestelar, exploración y combate táctico en una experiencia accesible desde el navegador.
+**VaxaV** es un juego web asíncrono de ciencia ficción espacial donde asumes el papel de un piloto en un universo persistente. Inspirado en títulos como **EVE Online**, **OGame** y la saga **X de Egosoft**.
 
-## 🎮 Características del Juego
+## 🚀 Quick Start
 
-- **Mundo Persistente**: El universo continúa evolucionando incluso cuando no estás conectado
-- **Progresión de Piloto**: Sistema de habilidades y experiencia para tu personaje
-- **Gestión de Naves**: Personaliza, mejora y gestiona tu flota espacial
-- **Exploración**: Descubre sistemas estelares, planetas y estaciones espaciales
-- **Economía Dinámica**: Sistema de comercio y mercados influenciados por los jugadores
-- **Interfaz Modular**: Paneles arrastrables y personalizables con Golden Layout
-
-## 🛠️ Stack Tecnológico
-
-- **Framework**: [SvelteKit](https://svelte.dev/) con Svelte 5
-- **Lenguaje**: TypeScript
-- **Estilos**: [Tailwind CSS](https://tailwindcss.com/) v4
-- **Layout Manager**: [Golden Layout](https://golden-layout.com/) v2
-- **Build Tool**: [Vite](https://vite.dev/)
+```bash
+npm install
+npm run dev
+# → http://localhost:5173/game
+```
 
 ## 📁 Estructura del Proyecto
 
 ```
-vaxav-ui/
-├── src/
-│   ├── app.css                 # Estilos globales (Tailwind + Golden Layout)
-│   ├── app.html                # Template HTML principal
-│   ├── app.d.ts                # Tipos globales de TypeScript
+src/
+├── app.css                    # Entry point: imports Tailwind + theme + CRT effects
+├── lib/
+│   ├── icons/                 # SVG icon registry
+│   │   └── index.ts           # Icon definitions (close, maximize, map, pilot, ship, etc.)
 │   │
-│   ├── lib/                    # Biblioteca de componentes y utilidades
-│   │   ├── index.ts            # Exportaciones principales
-│   │   │
-│   │   ├── assets/             # Assets estáticos
-│   │   │   └── favicon.svg     # Icono de la aplicación
-│   │   │
-│   │   ├── data/               # Capa de datos y API
-│   │   │   ├── api.ts          # Servicio de API abstracto
-│   │   │   ├── types.ts        # Tipos e interfaces del dominio
-│   │   │   └── fixtures/       # Datos mock para desarrollo
-│   │   │       └── index.ts    # Fixtures de pilotos, naves, sistemas
-│   │   │
-│   │   ├── layout/             # Configuración de Golden Layout
-│   │   │   ├── layoutConfig.ts # Configuración por defecto del layout
-│   │   │   └── panelRegistry.ts# Registro de paneles disponibles
-│   │   │
-│   │   ├── panels/             # Paneles del juego (Golden Layout)
-│   │   │   ├── MapPanel.svelte # Panel de navegación estelar
-│   │   │   ├── PilotPanel.svelte# Panel de información del piloto
-│   │   │   └── ShipPanel.svelte # Panel de detalles de la nave
-│   │   │
-│   │   ├── stores/             # Estado global (Svelte 5 runes)
-│   │   │   ├── gameStore.svelte.ts  # Estado del juego
-│   │   │   └── layoutStore.svelte.ts# Estado del layout
-│   │   │
-│   │   ├── styles/             # Estilos específicos
-│   │   │   └── golden-layout.css# Tema sci-fi para Golden Layout
-│   │   │
-│   │   └── ui/                 # Componentes UI reutilizables
-│   │       ├── index.ts        # Exportaciones de componentes
-│   │       ├── Badge.svelte    # Etiquetas de estado
-│   │       ├── Button.svelte   # Botones con variantes
-│   │       ├── Card.svelte     # Contenedores de tarjeta
-│   │       ├── Input.svelte    # Campos de entrada
-│   │       ├── Modal.svelte    # Diálogos modales
-│   │       ├── Progress.svelte # Barras de progreso
-│   │       ├── Table.svelte    # Tablas de datos
-│   │       └── Tooltip.svelte  # Tooltips informativos
+│   ├── layout/                # Golden Layout configuration
+│   │   ├── layoutConfig.ts    # Default panel arrangement
+│   │   └── panelRegistry.ts   # Panel component registry with icons & config
 │   │
-│   └── routes/                 # Rutas de SvelteKit
-│       ├── +layout.svelte      # Layout principal
-│       ├── +page.svelte        # Página de inicio
-│       ├── game/               # Módulo del juego
-│       │   └── +page.svelte    # Interfaz principal con paneles
-│       └── ui-showcase/        # Demostración de componentes UI
-│           └── +page.svelte
+│   ├── panels/                # Game panels (folder per panel)
+│   │   ├── MapPanel/
+│   │   │   ├── MapPanel.svelte
+│   │   │   └── index.ts       # Re-export
+│   │   ├── PilotPanel/
+│   │   │   ├── PilotPanel.svelte
+│   │   │   └── index.ts
+│   │   └── ShipPanel/
+│   │       ├── ShipPanel.svelte
+│   │       └── index.ts
+│   │
+│   ├── styles/                # Styling system
+│   │   ├── theme.css          # CSS variables (colors, typography, spacing)
+│   │   ├── crt-effects.css    # CRT visual effects (scanlines, glow, flicker)
+│   │   └── golden-layout.css  # Golden Layout CRT theme
+│   │
+│   ├── ui/                    # Reusable UI components
+│   │   ├── Icon.svelte        # SVG icon component with glow support
+│   │   ├── Button.svelte
+│   │   ├── Card.svelte
+│   │   └── ... (Badge, Input, Modal, Progress, Table, Tooltip)
+│   │
+│   ├── data/                  # Mock data layer
+│   │   ├── api.ts             # API service abstraction
+│   │   ├── types.ts           # Domain types
+│   │   └── fixtures/          # Development fixtures
+│   │
+│   └── stores/                # Global state (Svelte 5 runes)
 │
-├── static/                     # Assets públicos
-├── package.json                # Dependencias y scripts
-├── svelte.config.js            # Configuración de SvelteKit
-├── tsconfig.json               # Configuración de TypeScript
-└── vite.config.ts              # Configuración de Vite
+└── routes/
+    ├── game/+page.svelte      # Main game interface (Golden Layout)
+    └── ui-showcase/           # Component demo page
 ```
 
-## 🚀 Comenzando
+## 🎨 CRT Theme System
 
-### Prerrequisitos
+El tema usa variables CSS definidas en `theme.css`:
 
-- Node.js 18+ 
-- npm, pnpm o yarn
+| Variable | Valor | Uso |
+|----------|-------|-----|
+| `--crt-green` | `#00ff41` | Color primario (phosphor green) |
+| `--crt-bg-base` | `#0d1117` | Fondo de paneles |
+| `--font-mono` | `Share Tech Mono` | Fuente principal |
+| `--font-display` | `VT323` | Títulos retro |
 
-### Instalación
+### Efectos CRT disponibles (clases CSS):
 
-```bash
-# Clonar el repositorio
-git clone <repository-url>
-cd vaxav-ui
+- `.crt-scanlines` - Líneas horizontales de monitor CRT
+- `.crt-text-glow` - Resplandor fosforescente en texto
+- `.crt-flicker` - Parpadeo sutil
+- `.crt-border-glow` - Bordes con glow
 
-# Instalar dependencias
-npm install
+## 🔧 Agregar un Nuevo Panel
 
-# Iniciar servidor de desarrollo
-npm run dev
+1. Crear carpeta en `src/lib/panels/NuevoPanel/`
+2. Crear `NuevoPanel.svelte` y `index.ts`
+3. Registrar en `panelRegistry.ts`:
+
+```typescript
+import { NuevoPanel } from '$lib/panels/NuevoPanel';
+
+export const panelRegistry = {
+  // ...existing panels
+  NuevoPanel: {
+    component: NuevoPanel,
+    title: 'Nuevo Panel',
+    icon: 'grid', // from icons/index.ts
+  },
+};
 ```
 
-La aplicación estará disponible en `http://localhost:5173`
+4. Agregar al layout en `layoutConfig.ts`
 
-### Scripts Disponibles
+## 🔧 Agregar un Nuevo Icono
+
+Editar `src/lib/icons/index.ts`:
+
+```typescript
+export const icons = {
+  // ...existing icons
+  nuevoIcono: {
+    viewBox: '0 0 24 24',
+    paths: ['M12 2L...'], // SVG path data
+  },
+};
+```
+
+## 📋 Scripts
 
 | Comando | Descripción |
 |---------|-------------|
-| `npm run dev` | Inicia el servidor de desarrollo |
-| `npm run build` | Genera la versión de producción |
-| `npm run preview` | Previsualiza el build de producción |
-| `npm run check` | Ejecuta verificación de tipos TypeScript |
+| `npm run dev` | Desarrollo (port 5173) |
+| `npm run build` | Build producción |
+| `npm run check` | TypeScript check |
 
-## 🎨 Sistema de Diseño
+## 🛠️ Stack
 
-VaxaV utiliza una paleta de colores sci-fi con tonos oscuros y acentos en cian:
-
-- **Fondo Base**: `#111827` (gray-900)
-- **Fondo Header**: `#1f2937` (gray-800)
-- **Bordes**: `#4b5563` (gray-600)
-- **Texto Principal**: `#f3f4f6` (gray-100)
-- **Acento Primario**: `#06b6d4` (cyan-500)
-
-## 📱 Interfaz Modular
-
-La interfaz del juego utiliza **Golden Layout** para proporcionar una experiencia de escritorio profesional:
-
-- **Paneles Arrastrables**: Reorganiza la interfaz según tus preferencias
-- **Pestañas**: Agrupa múltiples paneles en un solo espacio
-- **Divisores Redimensionables**: Ajusta el tamaño de cada panel
-- **Persistencia**: El layout se guarda automáticamente en localStorage
-
-## 🔮 Roadmap
-
-- [ ] Sistema de autenticación
-- [ ] Conexión con backend API
-- [ ] Panel de inventario
-- [ ] Sistema de misiones
-- [ ] Chat en tiempo real
-- [ ] Mapa estelar interactivo
-- [ ] Sistema de combate
-- [ ] Mercado de comercio
-
-## 📄 Licencia
-
-Este proyecto está en desarrollo activo. Licencia por definir.
-
----
-
-*"Entre las estrellas, forja tu destino."* ✨
+- **SvelteKit** + Svelte 5
+- **TypeScript**
+- **Tailwind CSS** v4
+- **Golden Layout** v2
+- **Vite**

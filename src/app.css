@@ -1,2 +1,18 @@
+/* =============================================================================
+   VaxaV - Global Styles Entry Point
+   ============================================================================= */
+
+/* Google Fonts - CRT Terminal Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+/* Tailwind CSS */
 @import "tailwindcss";
+
+/* Theme Variables & Base Styles */
+@import "$lib/styles/theme.css";
+
+/* CRT Visual Effects */
+@import "$lib/styles/crt-effects.css";
+
+/* Golden Layout Styles */
 @import "$lib/styles/golden-layout.css";
