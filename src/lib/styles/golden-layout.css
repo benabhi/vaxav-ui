@@ -348,6 +348,7 @@
 .lm_item_container::-webkit-scrollbar-thumb:hover {
     background: var(--gl-accent-dim);
 }
+
 /* Float button */
 .lm_float {
     all: unset !important;
@@ -379,4 +380,9 @@
     stroke: currentColor !important;
     stroke-width: 2 !important;
     fill: none !important;
+}
+
+/* Hide native popout button if it appears */
+.lm_popout {
+    display: none !important;
 }

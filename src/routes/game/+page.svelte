@@ -139,6 +139,12 @@
 		// Add float buttons to controls
 		const controlContainers = document.querySelectorAll('.lm_controls');
 		controlContainers.forEach(controls => {
+			// Remove native popout button if present
+			const popout = controls.querySelector('.lm_popout');
+			if (popout) {
+				popout.remove();
+			}
+
 			if (controls.querySelector('.lm_float')) return;
 			
 			// Create float button
