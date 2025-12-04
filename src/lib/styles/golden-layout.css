@@ -1,0 +1,170 @@
+/* Golden Layout Custom Styles - VaxaV Sci-Fi Theme */
+
+/* Import Golden Layout base styles */
+@import 'golden-layout/dist/css/goldenlayout-base.css';
+@import 'golden-layout/dist/css/themes/goldenlayout-dark-theme.css';
+
+/* CSS Variables for theming */
+:root {
+    --gl-color-bg-base: #111827;
+    --gl-color-bg-header: #1f2937;
+    --gl-color-bg-tabs: #374151;
+    --gl-color-border: #4b5563;
+    --gl-color-text: #f3f4f6;
+    --gl-color-text-dim: #9ca3af;
+    --gl-color-accent: #06b6d4;
+    --gl-color-accent-hover: #0891b2;
+    --gl-border-radius: 4px;
+}
+
+/* Container */
+.lm_goldenlayout {
+    background: var(--gl-color-bg-base);
+}
+
+/* Headers */
+.lm_header {
+    background: var(--gl-color-bg-header);
+    border-bottom: 1px solid var(--gl-color-border);
+    height: 32px;
+}
+
+/* Tabs */
+.lm_tab {
+    background: transparent;
+    color: var(--gl-color-text-dim);
+    border: none;
+    padding: 0 12px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.lm_tab:hover {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--gl-color-text);
+}
+
+.lm_tab.lm_active {
+    background: var(--gl-color-bg-base);
+    color: var(--gl-color-accent);
+    border-bottom: 2px solid var(--gl-color-accent);
+}
+
+/* Tab close button */
+.lm_close_tab {
+    color: var(--gl-color-text-dim);
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.lm_close_tab:hover {
+    opacity: 1;
+    color: #ef4444;
+}
+
+/* Tab dropdown (popout, maximize, etc.) */
+.lm_controls {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.lm_controls:hover {
+    opacity: 1;
+}
+
+.lm_controls>li {
+    background: transparent;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.lm_controls>li:hover {
+    opacity: 1;
+    background: rgba(6, 182, 212, 0.1);
+}
+
+/* Content panels */
+.lm_content {
+    background: var(--gl-color-bg-base);
+    border: none;
+}
+
+/* Splitters */
+.lm_splitter {
+    background: var(--gl-color-border);
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.lm_splitter:hover {
+    opacity: 1;
+    background: var(--gl-color-accent);
+}
+
+/* Drag proxy */
+.lm_dragProxy {
+    border: 2px solid var(--gl-color-accent);
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.lm_dragProxy .lm_header {
+    background: var(--gl-color-accent);
+}
+
+.lm_dragProxy .lm_tab {
+    color: white;
+}
+
+/* Drop zones */
+.lm_dropTargetIndicator {
+    background: rgba(6, 182, 212, 0.2);
+    border: 2px dashed var(--gl-color-accent);
+}
+
+/* Maximized items */
+.lm_maximised {
+    border: 1px solid var(--gl-color-border);
+}
+
+/* Popout windows */
+.lm_popin {
+    cursor: pointer;
+}
+
+/* Stack */
+.lm_stack {
+    background: var(--gl-color-bg-base);
+}
+
+/* Panel title when no tabs */
+.lm_title {
+    color: var(--gl-color-text);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Transitions */
+.lm_transition {
+    transition: all 0.2s ease;
+}
+
+/* Custom scrollbar for panel content */
+.lm_item_container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.lm_item_container::-webkit-scrollbar-track {
+    background: var(--gl-color-bg-base);
+}
+
+.lm_item_container::-webkit-scrollbar-thumb {
+    background: var(--gl-color-border);
+    border-radius: 4px;
+}
+
+.lm_item_container::-webkit-scrollbar-thumb:hover {
+    background: var(--gl-color-accent);
+}
