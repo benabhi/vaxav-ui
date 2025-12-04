@@ -36,6 +36,7 @@
     font-family: var(--font-mono);
     display: flex !important;
     align-items: center !important;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 /* Tabs container */
@@ -78,6 +79,24 @@
     text-shadow: 0 0 8px var(--gl-accent-glow);
 }
 
+/* =============================================================================
+   FOCUSED TAB STYLES - When tab is clicked it gets .lm_focused class
+   ============================================================================= */
+
+/* Focused tab - brighter glow effect */
+.lm_tab.lm_active.lm_focused {
+    color: var(--crt-green-bright) !important;
+    text-shadow: 0 0 12px var(--gl-accent-glow), 0 0 20px var(--gl-accent-glow);
+    background: rgba(0, 255, 65, 0.08) !important;
+}
+
+/* Header containing focused tab gets highlight */
+.lm_header.lm_focused {
+    background: linear-gradient(180deg, rgba(0, 255, 65, 0.12) 0%, var(--gl-bg-header) 100%) !important;
+    border-bottom-color: var(--gl-accent) !important;
+    box-shadow: 0 1px 10px rgba(0, 255, 65, 0.15);
+}
+
 /* Tab title */
 .lm_title {
     display: inline-flex !important;
@@ -112,6 +131,11 @@
     filter: drop-shadow(0 0 3px var(--gl-accent-glow));
 }
 
+/* Focused tab icon gets more glow */
+.lm_tab.lm_active.lm_focused .tab-icon svg {
+    filter: drop-shadow(0 0 5px var(--gl-accent-glow)) drop-shadow(0 0 10px var(--gl-accent-glow));
+}
+
 /* Tab Close Button */
 .lm_close_tab {
     width: 12px !important;
@@ -144,20 +168,12 @@
 
 /* Control buttons - FULL RESET + CENTERED */
 .lm_controls>li {
-    /* Full reset */
     all: unset !important;
-    /* Explicit sizing */
     width: 18px !important;
     height: 18px !important;
-    min-width: 18px !important;
-    min-height: 18px !important;
-    max-width: 18px !important;
-    max-height: 18px !important;
-    /* Flexbox centering */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    /* Visual */
     background: transparent !important;
     opacity: 0.7;
     cursor: pointer;
@@ -170,6 +186,11 @@
 .lm_controls>li:hover {
     opacity: 1;
     background: rgba(0, 255, 65, 0.15) !important;
+}
+
+/* Focused header - controls more visible */
+.lm_header.lm_focused .lm_controls>li {
+    opacity: 0.9;
 }
 
 /* SVG inside control buttons */
@@ -188,7 +209,6 @@
     margin: auto !important;
 }
 
-/* Maximize button */
 .lm_maximise {
     all: unset !important;
     width: 18px !important;
@@ -243,6 +263,7 @@
     background: var(--gl-bg-base) !important;
     border: none !important;
     overflow: hidden;
+    transition: box-shadow 0.15s ease;
 }
 
 /* Splitters */
@@ -281,6 +302,30 @@
     background: var(--gl-bg-base) !important;
 }
 
+/* =============================================================================
+   FOCUSED STACK STYLES
+   ============================================================================= */
+
+/* When a stack has focus, highlight it */
+.lm_stack.lm_focused {
+    z-index: 1;
+}
+
+.lm_stack.lm_focused>.lm_header {
+    background: linear-gradient(180deg, rgba(0, 255, 65, 0.12) 0%, var(--gl-bg-header) 100%) !important;
+    border-bottom-color: var(--gl-accent) !important;
+    box-shadow: 0 1px 10px rgba(0, 255, 65, 0.15);
+}
+
+.lm_stack.lm_focused>.lm_items {
+    box-shadow: inset 0 0 30px rgba(0, 255, 65, 0.02);
+}
+
+/* Unfocused stacks slightly dimmed for contrast */
+.lm_stack:not(.lm_focused)>.lm_header {
+    opacity: 0.8;
+}
+
 /* Scrollbar */
 .lm_item_container {
     overflow: auto;
@@ -302,4 +347,36 @@
 
 .lm_item_container::-webkit-scrollbar-thumb:hover {
     background: var(--gl-accent-dim);
+}
+/* Float button */
+.lm_float {
+    all: unset !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    opacity: 0.7;
+    color: var(--gl-text-dim);
+    border-radius: 2px;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.lm_float:hover {
+    opacity: 1;
+    color: var(--crt-cyan) !important;
+    background: rgba(0, 212, 255, 0.15) !important;
+}
+
+.lm_float:hover svg {
+    filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.5));
+}
+
+.lm_float svg {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    fill: none !important;
 }

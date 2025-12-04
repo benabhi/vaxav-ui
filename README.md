@@ -125,3 +125,38 @@ export const icons = {
 - **Tailwind CSS** v4
 - **Golden Layout** v2
 - **Vite**
+
+## 📝 Notas Técnicas
+
+### Floating Panels (Paneles Flotantes)
+
+Golden Layout 2 **no soporta** ventanas flotantes dentro de la misma página (su "popout" abre nueva ventana del navegador). Implementamos un sistema personalizado:
+
+- **`FloatingPanel.svelte`** - Componente draggable/resizable
+- **`floatingPanels.ts`** - Store para estado de paneles flotantes
+- **`LayoutManager`** - Gestión inteligente de placement
+
+**Problema resuelto:** Al hacer dock de un panel flotante cuando solo quedaba 1 panel en el layout, volvía como **tab** en lugar de **split individual**.
+
+**Solución:** Cuando root es un stack (1 panel), el `LayoutManager`:
+1. Extrae configs de componentes existentes manualmente
+2. Limpia el layout con `layout.clear()`
+3. Recarga con nueva estructura: `row/column` con ambos stacks
+
+```typescript
+// layoutManager.ts - Caso single panel
+if (rootItem.type === 'stack') {
+  const existingComponents = this.getComponentConfigs(rootItem);
+  const newLayout = {
+    root: {
+      type: 'row', // o 'column' alternando
+      content: [
+        { type: 'stack', content: existingComponents },
+        { type: 'stack', content: [newComponentConfig] }
+      ]
+    }
+  };
+  this.layout.clear();
+  this.layout.loadLayout(newLayout);
+}
+```

@@ -8,4 +8,5 @@ export { default as Tooltip } from './Tooltip.svelte';
 export { default as Modal } from './Modal.svelte';
 export { default as Table } from './Table.svelte';
 export { default as Icon } from './Icon.svelte';
+export { default as FloatingPanel } from './FloatingPanel.svelte';
 

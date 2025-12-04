@@ -39,6 +39,29 @@ export const icons: Record<string, IconDefinition> = {
             'M8 4h12v12'
         ]
     },
+    popout: {
+        viewBox: '0 0 24 24',
+        paths: [
+            'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6',
+            'M15 3h6v6',
+            'M10 14L21 3'
+        ]
+    },
+    float: {
+        viewBox: '0 0 24 24',
+        paths: [
+            'M3 3h18v18H3V3z',
+            'M9 9h9v9H9V9z'
+        ]
+    },
+    dock: {
+        viewBox: '0 0 24 24',
+        paths: [
+            'M3 3h18v18H3V3z',
+            'M9 15l6-6',
+            'M9 9h6v6'
+        ]
+    },
 
     // Navigation & Menu
     menu: {
