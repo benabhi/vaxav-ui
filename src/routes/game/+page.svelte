@@ -434,6 +434,13 @@
 	</div>
 
 	<div bind:this={layoutContainer} class="layout-container">
+		<!-- Static background hint - always present, covered by panels -->
+		<div class="layout-background-hint">
+			<p class="hint-text">
+				Press <kbd>CTRL</kbd> + <kbd>SPACE</kbd> to open panel launcher
+			</p>
+		</div>
+
 		{#if !layoutReady}
 			<div class="loading-overlay">
 				<p class="loading-text crt-text-glow">
@@ -509,6 +516,37 @@
 	.layout-container :global(.lm_goldenlayout) {
 		width: 100%;
 		height: 100%;
+	}
+
+	/* Static background hint - always visible behind panels */
+	.layout-background-hint {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.hint-text {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--crt-text-muted);
+		opacity: 0.5;
+	}
+
+	.hint-text kbd {
+		display: inline-block;
+		padding: 4px 10px;
+		margin: 0 3px;
+		background: rgba(0, 255, 65, 0.05);
+		border: 1px solid rgba(0, 255, 65, 0.2);
+		border-radius: 3px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--crt-green-dim);
 	}
 
 	.loading-overlay {
