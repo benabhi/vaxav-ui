@@ -22,13 +22,31 @@ export class LayoutManager {
         if (!panelInfo) return false;
 
         const rootItem = this.layout.rootItem;
-        if (!rootItem) return false;
 
         const newComponentConfig = {
             type: 'component',
             componentType: componentType,
             title: panelInfo.title,
         };
+
+        // Handle empty layout case
+        if (!rootItem || !rootItem.contentItems || rootItem.contentItems.length === 0) {
+            try {
+                this.layout.loadLayout({
+                    root: {
+                        type: 'row',
+                        content: [{
+                            type: 'stack',
+                            content: [newComponentConfig]
+                        }]
+                    }
+                } as any);
+                return true;
+            } catch (e) {
+                console.error('Failed to load initial layout:', e);
+                return false;
+            }
+        }
 
         try {
             // Case 1: Root is a row or column - add a new stack to it
