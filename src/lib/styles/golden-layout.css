@@ -221,6 +221,18 @@
     filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.5));
 }
 
+/* Maximize button ACTIVE state - when panel is maximized */
+.lm_maximised .lm_controls>div.lm_maximise {
+    opacity: 1 !important;
+    color: var(--crt-cyan) !important;
+    background: rgba(0, 212, 255, 0.2) !important;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+.lm_maximised .lm_controls>div.lm_maximise svg {
+    filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.6));
+}
+
 /* Close button (div) - red hover */
 .lm_controls>div.lm_close:hover {
     opacity: 1 !important;
