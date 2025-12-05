@@ -192,12 +192,12 @@
 <style>
     .tab-bar {
         height: 32px;
-        background: #050505;
+        background: transparent;
         border-bottom: none;
         display: flex;
         align-items: stretch;
         padding: 0;
-        font-family: var(--font-mono, "JetBrains Mono", monospace);
+        font-family: var(--font-mono);
         flex-shrink: 0;
         position: relative;
         z-index: 10;
@@ -218,34 +218,31 @@
         gap: 8px;
         height: 100%;
         padding: 0 16px;
-        background: #0a0a0c;
+        background: transparent;
         border: none;
-        border-right: 1px solid #151515;
-        color: #5a7a5a;
+        border-right: 1px solid rgba(0, 255, 65, 0.1);
+        color: var(--crt-text-dim);
         font-size: 10px;
         font-family: inherit;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         cursor: pointer;
-        transition: all 0.1s ease;
+        transition: all 0.2s ease;
         position: relative;
         min-width: 100px;
         max-width: 200px;
     }
 
     .tab:hover {
-        background: #111;
-        color: #8a9a8a;
+        background: rgba(0, 255, 65, 0.05);
+        color: var(--crt-text-primary);
     }
 
     .tab.active {
-        background: #0f1412;
-        color: #00ff41;
-        border-top: 2px solid #00ff41;
-    }
-
-    .tab.active::before {
-        content: none;
+        background: rgba(0, 255, 65, 0.1);
+        color: var(--crt-green);
+        border-top: 1px solid var(--crt-green);
+        text-shadow: 0 0 8px var(--crt-green-glow);
     }
 
     .tab.active::after {
@@ -255,7 +252,7 @@
         left: 0;
         right: 0;
         height: 1px;
-        background: #0f1412;
+        background: transparent;
     }
 
     .tab-name {
@@ -266,9 +263,9 @@
     }
 
     .tab-name-input {
-        background: var(--crt-bg-dark, #0a0a0c);
-        border: 1px solid var(--crt-green, #00ff41);
-        color: var(--crt-green, #00ff41);
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--crt-green);
+        color: var(--crt-green);
         font-size: 11px;
         font-family: inherit;
         text-transform: uppercase;
@@ -288,15 +285,17 @@
         margin-left: 2px;
         background: transparent;
         border: none;
-        color: var(--crt-text-muted, #3a5a3a);
+        color: var(--crt-text-muted);
         cursor: pointer;
         border-radius: 2px;
         transition: all 0.15s ease;
+        opacity: 0.5;
     }
 
     .tab-close:hover {
         background: rgba(255, 51, 51, 0.2);
-        color: var(--crt-red, #ff3333);
+        color: var(--crt-red);
+        opacity: 1;
     }
 
     .tab-add {
@@ -309,14 +308,14 @@
         margin: 0;
         background: transparent;
         border: none;
-        border-left: 1px solid #151515;
-        color: #5a7a5a;
+        border-left: 1px solid rgba(0, 255, 65, 0.1);
+        color: var(--crt-text-dim);
         cursor: pointer;
         transition: all 0.15s ease;
     }
 
     .tab-add:hover {
         background: rgba(0, 255, 65, 0.1);
-        color: var(--crt-green, #00ff41);
+        color: var(--crt-green);
     }
 </style>

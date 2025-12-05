@@ -13,7 +13,7 @@
 				<p class="pilot-rank">RANK: CAPTAIN</p>
 			</div>
 		</div>
-		
+
 		<div class="panel-section">
 			<h4 class="section-title">[ STATISTICS ]</h4>
 			<div class="stat-row">
@@ -33,7 +33,7 @@
 				<span class="value highlight">1,250,000 ₵</span>
 			</div>
 		</div>
-		
+
 		<div class="panel-section">
 			<h4 class="section-title">[ SKILLS ]</h4>
 			<div class="skill-bar">
@@ -65,30 +65,32 @@
 	.panel {
 		height: 100%;
 		width: 100%;
-		background: var(--crt-bg-base);
+		background: transparent;
 		color: var(--crt-text-primary);
 		font-family: var(--font-mono);
 		padding: var(--spacing-md);
 		overflow: auto;
 	}
-	
+
 	.panel-content {
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-md);
 	}
-	
+
 	.panel-section {
 		border: 1px solid var(--crt-border);
 		padding: var(--spacing-md);
+		background: rgba(0, 255, 65, 0.02);
+		border-radius: 2px;
 	}
-	
+
 	.pilot-header {
 		display: flex;
 		align-items: center;
 		gap: var(--spacing-md);
 	}
-	
+
 	.pilot-avatar {
 		width: 48px;
 		height: 48px;
@@ -100,24 +102,24 @@
 		color: var(--crt-green);
 		text-shadow: var(--glow-text);
 	}
-	
+
 	.pilot-info {
 		flex: 1;
 	}
-	
+
 	.pilot-name {
 		margin: 0;
 		font-size: var(--font-size-lg);
 		color: var(--crt-green);
 		font-weight: normal;
 	}
-	
+
 	.pilot-rank {
 		margin: var(--spacing-xs) 0 0;
 		font-size: var(--font-size-xs);
 		color: var(--crt-text-dim);
 	}
-	
+
 	.section-title {
 		margin: 0 0 var(--spacing-sm) 0;
 		font-size: var(--font-size-xs);
@@ -125,7 +127,7 @@
 		color: var(--crt-text-muted);
 		letter-spacing: 1px;
 	}
-	
+
 	.stat-row {
 		display: flex;
 		justify-content: space-between;
@@ -133,24 +135,24 @@
 		font-size: var(--font-size-sm);
 		border-bottom: 1px solid var(--crt-border-dim);
 	}
-	
+
 	.stat-row:last-child {
 		border-bottom: none;
 	}
-	
+
 	.label {
 		color: var(--crt-text-muted);
 	}
-	
+
 	.value {
 		color: var(--crt-text-primary);
 	}
-	
+
 	.highlight {
 		color: var(--crt-amber);
 		text-shadow: 0 0 5px rgba(255, 176, 0, 0.5);
 	}
-	
+
 	.skill-bar {
 		display: flex;
 		align-items: center;
@@ -158,25 +160,29 @@
 		margin-bottom: var(--spacing-xs);
 		font-size: var(--font-size-xs);
 	}
-	
+
 	.skill-name {
 		width: 70px;
 		color: var(--crt-text-dim);
 	}
-	
+
 	.bar-container {
 		flex: 1;
 		height: 8px;
 		background: var(--crt-bg-dark);
 		border: 1px solid var(--crt-border);
 	}
-	
+
 	.bar-fill {
 		height: 100%;
-		background: linear-gradient(90deg, var(--crt-green-dark), var(--crt-green));
+		background: linear-gradient(
+			90deg,
+			var(--crt-green-dark),
+			var(--crt-green)
+		);
 		box-shadow: 0 0 5px var(--crt-green-glow);
 	}
-	
+
 	.skill-value {
 		width: 24px;
 		text-align: right;

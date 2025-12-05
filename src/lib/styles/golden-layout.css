@@ -1,16 +1,17 @@
 /* =============================================================================
-   Golden Layout - VaxaV CRT Retro Sci-Fi Theme
+   Golden Layout - VaxaV Professional Retro Sci-Fi Theme
+   Glassmorphism & High-Fidelity Terminal Aesthetic
    ============================================================================= */
 
 @import 'golden-layout/dist/css/goldenlayout-base.css';
 
-/* CSS Variables */
+/* CSS Variables Mapping */
 :root {
-    --gl-bg-base: var(--crt-bg-base);
-    --gl-bg-header: var(--crt-bg-elevated);
-    --gl-bg-tabs: var(--crt-bg-surface);
-    --gl-border: var(--crt-border);
-    --gl-border-bright: var(--crt-border-bright);
+    --gl-bg-base: transparent;
+    --gl-bg-header: rgba(0, 255, 65, 0.02);
+    --gl-bg-tabs: transparent;
+    --gl-border: rgba(0, 255, 65, 0.15);
+    --gl-border-bright: rgba(0, 255, 65, 0.4);
     --gl-text: var(--crt-text-primary);
     --gl-text-dim: var(--crt-text-dim);
     --gl-text-muted: var(--crt-text-muted);
@@ -18,12 +19,12 @@
     --gl-accent-dim: var(--crt-green-dim);
     --gl-accent-glow: var(--crt-green-glow);
     --gl-close-color: var(--crt-red);
-    --gl-header-height: 26px;
+    --gl-header-height: 28px;
 }
 
 /* Main Container */
 .lm_goldenlayout {
-    background: var(--gl-bg-base);
+    background: transparent;
 }
 
 /* Headers */
@@ -31,12 +32,10 @@
     background: var(--gl-bg-header) !important;
     border-bottom: 1px solid var(--gl-border) !important;
     height: var(--gl-header-height) !important;
-    min-height: var(--gl-header-height) !important;
-    max-height: var(--gl-header-height) !important;
-    font-family: var(--font-mono);
+    font-family: var(--font-display);
     display: flex !important;
     align-items: center !important;
-    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    padding-left: 4px !important;
 }
 
 /* Tabs container */
@@ -44,6 +43,9 @@
     display: flex !important;
     align-items: center !important;
     height: 100% !important;
+    gap: 1px !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Tabs */
@@ -51,245 +53,265 @@
     background: transparent !important;
     color: var(--gl-text-dim) !important;
     border: none !important;
-    padding: 0 10px !important;
-    height: var(--gl-header-height) !important;
+    border-right: 1px solid var(--gl-border) !important;
+    padding: 0 12px !important;
+    height: 100% !important;
     font-size: 10px !important;
     font-family: var(--font-mono) !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all 0.15s ease;
-    display: inline-flex !important;
+    transition: all 0.2s ease;
+    display: flex !important;
     align-items: center !important;
-    gap: 5px !important;
-    line-height: 1 !important;
-    box-sizing: border-box !important;
+    gap: 0 !important;
     margin: 0 !important;
+    position: relative;
+    white-space: nowrap !important;
 }
 
 .lm_tab:hover {
-    background: rgba(0, 255, 65, 0.1) !important;
+    background: rgba(0, 255, 65, 0.05) !important;
     color: var(--gl-text) !important;
-    text-shadow: 0 0 5px var(--gl-accent-glow);
 }
 
 .lm_tab.lm_active {
-    background: var(--gl-bg-base) !important;
+    background: rgba(0, 255, 65, 0.08) !important;
     color: var(--gl-accent) !important;
-    border-bottom: 2px solid var(--gl-accent) !important;
+    border-top: 1px solid var(--gl-accent) !important;
+    text-shadow: 0 0 5px var(--gl-accent-glow);
+}
+
+/* Focused tab */
+.lm_tab.lm_active.lm_focused {
+    background: rgba(0, 255, 65, 0.12) !important;
     text-shadow: 0 0 8px var(--gl-accent-glow);
 }
 
-/* =============================================================================
-   FOCUSED TAB STYLES - When tab is clicked it gets .lm_focused class
-   ============================================================================= */
-
-/* Focused tab - brighter glow effect */
-.lm_tab.lm_active.lm_focused {
-    color: var(--crt-green-bright) !important;
-    text-shadow: 0 0 12px var(--gl-accent-glow), 0 0 20px var(--gl-accent-glow);
-    background: rgba(0, 255, 65, 0.08) !important;
-}
-
-/* Header containing focused tab gets highlight */
+/* Header containing focused tab */
 .lm_header.lm_focused {
-    background: linear-gradient(180deg, rgba(0, 255, 65, 0.12) 0%, var(--gl-bg-header) 100%) !important;
+    background: rgba(0, 255, 65, 0.05) !important;
     border-bottom-color: var(--gl-accent) !important;
-    box-shadow: 0 1px 10px rgba(0, 255, 65, 0.15);
 }
 
 /* Tab title */
 .lm_title {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-    line-height: 1 !important;
-    white-space: nowrap;
-    font-size: 10px !important;
     font-family: var(--font-mono) !important;
+    font-weight: 500;
+    display: flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
 }
 
-/* Tab icon */
+/* Custom Tab Icon (injected via JS) */
 .tab-icon {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 12px !important;
-    height: 12px !important;
-    flex-shrink: 0 !important;
+    margin-right: 8px !important;
+    color: var(--gl-accent);
 }
 
 .tab-icon svg {
-    width: 12px !important;
-    height: 12px !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    fill: none !important;
     display: block !important;
 }
 
-.lm_tab.lm_active .tab-icon svg {
-    filter: drop-shadow(0 0 3px var(--gl-accent-glow));
-}
-
-/* Focused tab icon gets more glow */
-.lm_tab.lm_active.lm_focused .tab-icon svg {
-    filter: drop-shadow(0 0 5px var(--gl-accent-glow)) drop-shadow(0 0 10px var(--gl-accent-glow));
-}
-
-/* Tab Close Button */
+/* Tab Close Button (X on each tab) */
 .lm_close_tab {
-    width: 12px !important;
-    height: 12px !important;
-    opacity: 0.5;
+    width: 14px !important;
+    height: 14px !important;
+    opacity: 0.4;
     transition: all 0.15s ease;
-    margin-left: 4px !important;
+    margin-left: 8px !important;
     cursor: pointer;
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    color: var(--gl-text-dim) !important;
+}
+
+.lm_close_tab svg {
+    width: 10px !important;
+    height: 10px !important;
+    stroke: currentColor !important;
+    stroke-width: 2px !important;
 }
 
 .lm_close_tab:hover {
     opacity: 1;
-    color: var(--gl-close-color);
+    color: var(--gl-close-color) !important;
+}
+
+.lm_close_tab:hover svg {
+    filter: drop-shadow(0 0 2px rgba(255, 51, 51, 0.5));
 }
 
 /* Header Controls */
 .lm_controls {
     display: flex !important;
     align-items: center !important;
-    gap: 2px;
+    gap: 4px;
     margin-right: 4px;
     height: 100% !important;
     margin-left: auto;
-    padding-left: 8px;
-    border-left: 1px solid var(--gl-border);
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 4px 0 0 !important;
+    border: none !important;
+    list-style: none !important;
 }
 
-/* Control buttons - FULL RESET + CENTERED */
-.lm_controls>li {
+/* =============================================================================
+   Control Button Styles - Target BOTH li (custom) AND div (native GL)
+   ============================================================================= */
+
+/* Base styles for ALL control buttons */
+.lm_controls>li,
+.lm_controls>div.lm_maximise,
+.lm_controls>div.lm_close {
     all: unset !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 20px !important;
+    height: 20px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    cursor: pointer !important;
+    opacity: 0.6 !important;
+    color: var(--gl-text-dim) !important;
+    transition: all 0.15s ease !important;
+    position: relative !important;
+    border-radius: 2px !important;
     background: transparent !important;
-    opacity: 0.7;
-    cursor: pointer;
-    transition: opacity 0.15s ease, background 0.15s ease;
-    border-radius: 2px;
-    color: var(--gl-text-dim);
-    box-sizing: border-box !important;
 }
 
-.lm_controls>li:hover {
-    opacity: 1;
-    background: rgba(0, 255, 65, 0.15) !important;
-}
-
-/* Focused header - controls more visible */
-.lm_header.lm_focused .lm_controls>li {
-    opacity: 0.9;
-}
-
-/* SVG inside control buttons */
-.lm_controls>li>svg,
-.lm_maximise>svg,
-.lm_close>svg {
+/* SVG styles for all buttons */
+.lm_controls>li svg,
+.lm_controls>div.lm_maximise svg,
+.lm_controls>div.lm_close svg {
     width: 14px !important;
     height: 14px !important;
-    min-width: 14px !important;
-    min-height: 14px !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    fill: none !important;
+    stroke-width: 1.5px !important;
     display: block !important;
-    flex-shrink: 0 !important;
-    margin: auto !important;
+    transition: all 0.15s ease !important;
+    stroke: currentColor !important;
 }
 
-.lm_maximise {
-    all: unset !important;
-    width: 18px !important;
-    height: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer;
-    opacity: 0.7;
-    color: var(--gl-text-dim);
-    border-radius: 2px;
-    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+/* Float button (li) - green hover */
+.lm_controls>li.lm_float:hover {
+    opacity: 1 !important;
+    color: var(--crt-green) !important;
+    background: rgba(0, 255, 65, 0.1) !important;
 }
 
-.lm_maximise:hover {
-    opacity: 1;
-    color: var(--gl-accent) !important;
-    background: rgba(0, 255, 65, 0.15) !important;
+.lm_controls>li.lm_float:hover svg {
+    filter: drop-shadow(0 0 3px rgba(0, 255, 65, 0.5));
 }
 
-.lm_maximise:hover svg {
-    filter: drop-shadow(0 0 3px var(--gl-accent-glow));
+/* Maximize button (div) - cyan hover */
+.lm_controls>div.lm_maximise:hover {
+    opacity: 1 !important;
+    color: var(--crt-cyan) !important;
+    background: rgba(0, 212, 255, 0.15) !important;
 }
 
-/* Close button */
-.lm_close {
-    all: unset !important;
-    width: 18px !important;
-    height: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer;
-    opacity: 0.7;
-    color: var(--gl-text-dim);
-    border-radius: 2px;
-    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+.lm_controls>div.lm_maximise:hover svg {
+    filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.5));
 }
 
-.lm_close:hover {
-    opacity: 1;
-    color: var(--gl-close-color) !important;
+/* Close button (div) - red hover */
+.lm_controls>div.lm_close:hover {
+    opacity: 1 !important;
+    color: var(--crt-red) !important;
     background: rgba(255, 51, 51, 0.15) !important;
 }
 
-.lm_close:hover svg {
+.lm_controls>div.lm_close:hover svg {
     filter: drop-shadow(0 0 3px rgba(255, 51, 51, 0.5));
 }
 
-/* Content Panels */
+/* Content Panels - THE GLASS EFFECT */
 .lm_content {
-    background: var(--gl-bg-base) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur);
     border: none !important;
-    overflow: hidden;
-    transition: box-shadow 0.15s ease;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    scrollbar-width: thin;
+    scrollbar-color: var(--crt-green-dim) transparent;
+}
+
+/* Custom Scrollbar for Webkit */
+.lm_content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.lm_content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lm_content::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 65, 0.2);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+.lm_content::-webkit-scrollbar-thumb:hover {
+    background: var(--crt-green);
+    box-shadow: 0 0 5px var(--crt-green-glow);
 }
 
 /* Splitters */
 .lm_splitter {
-    background: var(--gl-border) !important;
-    opacity: 0.6;
-    transition: all 0.15s ease;
+    background: transparent !important;
+    opacity: 1;
+    position: relative;
 }
 
-.lm_splitter:hover {
-    opacity: 1;
-    background: var(--gl-accent) !important;
+.lm_splitter::after {
+    content: '';
+    position: absolute;
+    background: var(--gl-border);
+    transition: all 0.2s ease;
+}
+
+.lm_splitter.lm_vertical::after {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.lm_splitter.lm_horizontal::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+.lm_splitter:hover::after,
+.lm_splitter.lm_dragging::after {
+    background: var(--gl-accent);
     box-shadow: 0 0 8px var(--gl-accent-glow);
 }
 
 /* Drag Proxy */
 .lm_dragProxy {
-    border: 2px solid var(--gl-accent) !important;
+    border: 1px solid var(--gl-accent) !important;
     background: rgba(0, 255, 65, 0.1) !important;
-    box-shadow: 0 0 20px var(--gl-accent-glow);
+    box-shadow: 0 0 15px var(--gl-accent-glow);
+    backdrop-filter: blur(4px);
 }
 
 /* Drop Target */
 .lm_dropTargetIndicator {
-    background: rgba(0, 255, 65, 0.15) !important;
-    border: 2px dashed var(--gl-accent) !important;
+    background: rgba(0, 255, 65, 0.1) !important;
+    border: 1px solid var(--gl-accent) !important;
+    box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.2);
 }
 
 /* Maximized State */
@@ -299,90 +321,11 @@
 
 /* Stack */
 .lm_stack {
-    background: var(--gl-bg-base) !important;
+    background: transparent !important;
+    border: 1px solid var(--gl-border);
 }
 
-/* =============================================================================
-   FOCUSED STACK STYLES
-   ============================================================================= */
-
-/* When a stack has focus, highlight it */
 .lm_stack.lm_focused {
-    z-index: 1;
-}
-
-.lm_stack.lm_focused>.lm_header {
-    background: linear-gradient(180deg, rgba(0, 255, 65, 0.12) 0%, var(--gl-bg-header) 100%) !important;
-    border-bottom-color: var(--gl-accent) !important;
-    box-shadow: 0 1px 10px rgba(0, 255, 65, 0.15);
-}
-
-.lm_stack.lm_focused>.lm_items {
-    box-shadow: inset 0 0 30px rgba(0, 255, 65, 0.02);
-}
-
-/* Unfocused stacks slightly dimmed for contrast */
-.lm_stack:not(.lm_focused)>.lm_header {
-    opacity: 0.8;
-}
-
-/* Scrollbar */
-.lm_item_container {
-    overflow: auto;
-}
-
-.lm_item_container::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-.lm_item_container::-webkit-scrollbar-track {
-    background: var(--gl-bg-base);
-}
-
-.lm_item_container::-webkit-scrollbar-thumb {
-    background: var(--gl-border);
-    border-radius: 2px;
-}
-
-.lm_item_container::-webkit-scrollbar-thumb:hover {
-    background: var(--gl-accent-dim);
-}
-
-/* Float button */
-.lm_float {
-    all: unset !important;
-    width: 18px !important;
-    height: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer;
-    opacity: 0.7;
-    color: var(--gl-text-dim);
-    border-radius: 2px;
-    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
-}
-
-.lm_float:hover {
-    opacity: 1;
-    color: var(--crt-cyan) !important;
-    background: rgba(0, 212, 255, 0.15) !important;
-}
-
-.lm_float:hover svg {
-    filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.5));
-}
-
-.lm_float svg {
-    width: 14px !important;
-    height: 14px !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    fill: none !important;
-}
-
-/* Hide native popout button if it appears */
-.lm_popout {
-    display: none !important;
+    border-color: var(--gl-border-bright);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
 }

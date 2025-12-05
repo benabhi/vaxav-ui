@@ -73,14 +73,15 @@
 		align-items: center;
 		gap: 10px;
 		padding: 10px 12px;
-		background: var(--crt-bg-base, #0d0d0f);
-		border: 1px solid var(--crt-border, #1a3a1a);
-		transition: all 0.15s ease;
+		background: rgba(0, 0, 0, 0.2);
+		border: 1px solid rgba(0, 255, 65, 0.2);
+		transition: all 0.2s ease;
 	}
 
 	.input-wrapper:focus-within {
-		border-color: var(--crt-green, #00ff41);
-		box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
+		border-color: var(--crt-green);
+		box-shadow: 0 0 10px var(--crt-green-glow);
+		background: rgba(0, 255, 65, 0.02);
 	}
 
 	.input-wrapper.disabled {
@@ -101,20 +102,22 @@
 	.input-icon {
 		display: flex;
 		align-items: center;
-		color: var(--crt-text-dim, #6a8a6a);
+		color: var(--crt-text-dim);
 		flex-shrink: 0;
+		transition: color 0.2s ease;
 	}
 
 	.input-wrapper:focus-within .input-icon {
-		color: var(--crt-green, #00ff41);
+		color: var(--crt-green);
+		filter: drop-shadow(0 0 5px var(--crt-green-glow));
 	}
 
 	.input-field {
 		flex: 1;
 		background: transparent !important;
 		border: none;
-		color: var(--crt-green, #00ff41);
-		font-family: var(--font-mono, "JetBrains Mono", monospace);
+		color: var(--crt-green);
+		font-family: var(--font-mono);
 		font-size: 12px;
 		outline: none;
 		min-width: 0;
@@ -126,8 +129,8 @@
 	.input-field:-webkit-autofill:hover,
 	.input-field:-webkit-autofill:focus,
 	.input-field:-webkit-autofill:active {
-		-webkit-box-shadow: 0 0 0 1000px var(--crt-bg-base, #0d0d0f) inset !important;
-		-webkit-text-fill-color: var(--crt-green, #00ff41) !important;
+		-webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.2) inset !important;
+		-webkit-text-fill-color: var(--crt-green) !important;
 		background-color: transparent !important;
 	}
 
@@ -140,7 +143,7 @@
 	}
 
 	.input-field::placeholder {
-		color: var(--crt-text-muted, #3a5a3a);
+		color: var(--crt-text-muted);
 	}
 
 	.input-field:disabled {

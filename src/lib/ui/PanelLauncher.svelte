@@ -13,7 +13,7 @@
     let isOpen = $state(false);
     let searchQuery = $state("");
     let selectedIndex = $state(0);
-    let inputComponent: { focus: () => void };
+    let inputComponent = $state<{ focus: () => void } | undefined>();
     let menuRef: HTMLDivElement;
 
     // Get filtered panels based on search
@@ -189,21 +189,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
+        width: 40px;
         height: 100%;
         padding: 0;
-        background: #0a0a0c;
+        background: transparent;
         border: none;
-        border-right: 1px solid #151515;
-        color: var(--crt-green, #00ff41);
+        border-right: 1px solid rgba(0, 255, 65, 0.1);
+        color: var(--crt-green);
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.2s ease;
     }
 
     .launcher-button:hover {
-        background: #111;
-        color: var(--crt-green, #00ff41);
-        text-shadow: 0 0 8px var(--crt-green-glow, rgba(0, 255, 65, 0.5));
+        background: rgba(0, 255, 65, 0.05);
+        color: var(--crt-green-bright);
+        text-shadow: 0 0 8px var(--crt-green-glow);
     }
 
     .launcher-menu {
@@ -211,20 +211,19 @@
         top: 100%;
         left: 0;
         width: 320px;
-        background: var(--crt-bg-dark, #0a0a0c);
-        border: 1px solid var(--crt-border, #1a3a1a);
-        border-top: 2px solid var(--crt-green, #00ff41);
-        box-shadow:
-            0 8px 24px rgba(0, 0, 0, 0.6),
-            0 0 20px rgba(0, 255, 65, 0.1);
+        background: rgba(5, 10, 7, 0.9);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 255, 65, 0.2);
+        border-top: 1px solid var(--crt-green);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         z-index: 1000;
-        animation: slideDown 0.15s ease;
+        animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes slideDown {
         from {
             opacity: 0;
-            transform: translateY(-8px);
+            transform: translateY(-10px);
         }
         to {
             opacity: 1;
@@ -233,97 +232,107 @@
     }
 
     .search-container {
-        padding: 10px;
-        border-bottom: 1px solid var(--crt-border, #1a3a1a);
+        padding: 12px;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.1);
     }
 
     .panels-list {
         max-height: 320px;
         overflow-y: auto;
-        padding: 6px 0;
+        padding: 4px 0;
     }
 
     .panel-item {
         display: flex;
         align-items: flex-start;
         width: 100%;
-        padding: 10px 14px;
+        padding: 12px 16px;
         gap: 12px;
         background: transparent;
         border: none;
-        color: var(--crt-text-primary, #b0d0b0);
+        color: var(--crt-text-dim);
         text-align: left;
         cursor: pointer;
-        transition: all 0.1s ease;
+        transition: all 0.15s ease;
+        border-left: 2px solid transparent;
     }
 
     .panel-item:hover,
     .panel-item.selected {
-        background: rgba(0, 255, 65, 0.08);
+        background: rgba(0, 255, 65, 0.05);
+        color: var(--crt-text-primary);
     }
 
     .panel-item.selected {
-        background: rgba(0, 255, 65, 0.14);
+        border-left-color: var(--crt-green);
+        background: linear-gradient(
+            90deg,
+            rgba(0, 255, 65, 0.1) 0%,
+            transparent 100%
+        );
     }
 
     .panel-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
-        color: var(--crt-green, #00ff41);
-        opacity: 0.8;
+        width: 24px;
+        height: 24px;
+        color: var(--crt-green);
+        opacity: 0.7;
         flex-shrink: 0;
     }
 
     .panel-item.selected .panel-icon,
     .panel-item:hover .panel-icon {
         opacity: 1;
+        filter: drop-shadow(0 0 5px var(--crt-green-glow));
     }
 
     .panel-info {
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: 4px;
         min-width: 0;
     }
 
     .panel-title {
-        font-family: var(--font-mono, "JetBrains Mono", monospace);
-        font-size: 12px;
+        font-family: var(--font-display);
+        font-size: 13px;
         font-weight: 500;
-        color: var(--crt-text-primary, #b0d0b0);
+        letter-spacing: 0.5px;
+        color: var(--crt-text-primary);
     }
 
-    .panel-item.selected .panel-title,
-    .panel-item:hover .panel-title {
-        color: var(--crt-green, #00ff41);
+    .panel-item.selected .panel-title {
+        color: var(--crt-green-bright);
     }
 
     .panel-desc {
-        font-family: var(--font-mono, "JetBrains Mono", monospace);
-        font-size: 10px;
-        color: var(--crt-text-muted, #5a7a5a);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--crt-text-muted);
         line-height: 1.3;
     }
 
     .no-results {
-        padding: 20px;
+        padding: 24px;
         text-align: center;
-        color: var(--crt-text-muted, #3a5a3a);
-        font-size: 11px;
-        font-family: var(--font-mono, "JetBrains Mono", monospace);
+        color: var(--crt-text-muted);
+        font-size: 12px;
+        font-family: var(--font-mono);
     }
 
     .launcher-footer {
-        padding: 8px 14px;
-        border-top: 1px solid var(--crt-border, #1a3a1a);
+        padding: 8px 16px;
+        border-top: 1px solid rgba(0, 255, 65, 0.1);
+        background: rgba(0, 0, 0, 0.2);
     }
 
     .shortcut-hint {
-        color: var(--crt-text-muted, #3a5a3a);
-        font-family: var(--font-mono, "JetBrains Mono", monospace);
+        color: var(--crt-text-muted);
+        font-family: var(--font-mono);
         font-size: 10px;
+        opacity: 0.7;
     }
 </style>

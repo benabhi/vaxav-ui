@@ -36,7 +36,7 @@
 		const icon = icons[iconName];
 		if (!icon) return "";
 		const paths = icon.paths.map((p) => `<path d="${p}" />`).join("");
-		return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${icon.viewBox}" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+		return `<svg class="gl-icon" xmlns="http://www.w3.org/2000/svg" viewBox="${icon.viewBox}" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
 	}
 
 	function createTabTitle(title: string, iconName?: string): string {
@@ -74,7 +74,9 @@
 		}
 	}
 
-	onMount(async () => {
+	let observer: MutationObserver | null = null;
+
+	onMount(() => {
 		if (!layoutContainer) return;
 
 		goldenLayout = new GoldenLayout(layoutContainer);
@@ -108,6 +110,32 @@
 		});
 
 		layoutReady = true;
+
+		// Observe DOM changes to enforce icon styles on dynamically created headers
+		observer = new MutationObserver((mutations) => {
+			let shouldUpdate = false;
+			for (const mutation of mutations) {
+				if (mutation.addedNodes.length > 0) {
+					shouldUpdate = true;
+					break;
+				}
+			}
+			if (shouldUpdate) {
+				requestAnimationFrame(() => {
+					updateAllTabIcons();
+					updateControlIcons();
+				});
+			}
+		});
+
+		observer.observe(layoutContainer, {
+			childList: true,
+			subtree: true,
+		});
+
+		return () => {
+			if (observer) observer.disconnect();
+		};
 	});
 
 	/**
@@ -234,23 +262,54 @@
 				}
 			}
 		});
+
+		// Add middle-click to close tabs
+		document.querySelectorAll(".lm_tab").forEach((tab) => {
+			// Only add listener if not already added
+			if (!(tab as any)._middleClickAdded) {
+				(tab as any)._middleClickAdded = true;
+				tab.addEventListener("auxclick", (e: Event) => {
+					const mouseEvent = e as MouseEvent;
+					// Middle mouse button is button 1
+					if (mouseEvent.button === 1) {
+						e.preventDefault();
+						e.stopPropagation();
+						// Find and click the close tab button
+						const closeBtn = tab.querySelector(
+							".lm_close_tab",
+						) as HTMLElement;
+						if (closeBtn) {
+							closeBtn.click();
+						}
+					}
+				});
+			}
+		});
 	}
 
 	function updateControlIcons() {
 		const controlContainers = document.querySelectorAll(".lm_controls");
 		controlContainers.forEach((controls) => {
+			// 1. Remove native popout if present (as per user instruction)
 			const popout = controls.querySelector(".lm_popout");
 			if (popout) popout.remove();
 
+			// 2. Check if custom float button already exists
 			if (controls.querySelector(".lm_float")) return;
 
+			// 3. Create and insert custom float button
 			const floatBtn = document.createElement("li");
 			floatBtn.className = "lm_float";
 			floatBtn.title = "Float panel";
 			floatBtn.innerHTML = getIconSvg("float", 14);
 
+			// Insert before maximize button, or at the beginning if no maximize
 			const maximise = controls.querySelector(".lm_maximise");
-			if (maximise) controls.insertBefore(floatBtn, maximise);
+			if (maximise) {
+				controls.insertBefore(floatBtn, maximise);
+			} else {
+				controls.prepend(floatBtn);
+			}
 
 			floatBtn.addEventListener("click", (e) => {
 				e.stopPropagation();
@@ -259,14 +318,24 @@
 			});
 		});
 
+		// Always update maximize and close buttons with custom SVG icons
 		document.querySelectorAll(".lm_maximise").forEach((btn) => {
-			if (!btn.querySelector("svg"))
+			if (!btn.innerHTML.includes("svg")) {
 				btn.innerHTML = getIconSvg("maximize", 14);
+			}
 		});
 
 		document.querySelectorAll(".lm_controls .lm_close").forEach((btn) => {
-			if (!btn.querySelector("svg"))
+			if (!btn.innerHTML.includes("svg")) {
 				btn.innerHTML = getIconSvg("close", 14);
+			}
+		});
+
+		// Update tab close buttons (the X on each tab)
+		document.querySelectorAll(".lm_close_tab").forEach((btn) => {
+			if (!btn.innerHTML.includes("svg")) {
+				btn.innerHTML = getIconSvg("close", 10);
+			}
 		});
 	}
 
@@ -398,20 +467,35 @@
 		width: 100vw;
 		display: flex;
 		flex-direction: column;
-		background-color: var(--crt-bg-dark);
+		background: radial-gradient(
+			circle at 50% 30%,
+			#0a140e 0%,
+			#020402 100%
+		);
 		overflow: hidden;
 		position: relative;
+	}
+
+	.game-container::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+		opacity: 0.03;
+		pointer-events: none;
+		z-index: 0;
 	}
 
 	.top-bar {
 		display: flex;
 		align-items: stretch;
-		background: var(--crt-bg-dark, #0a0a0c);
+		background: rgba(5, 10, 7, 0.6);
+		backdrop-filter: blur(10px);
 		flex-shrink: 0;
-		border-bottom: 1px solid var(--crt-green, #00ff41);
-		margin-bottom: 4px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+		border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+		margin-bottom: 0;
 		z-index: 20;
+		position: relative;
 	}
 
 	.layout-container {

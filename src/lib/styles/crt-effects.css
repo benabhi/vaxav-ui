@@ -1,72 +1,30 @@
 /* =============================================================================
    VaxaV CRT Effects
-   Authentic CRT Monitor Visual Effects
+   High-Fidelity Terminal Visual Effects
    ============================================================================= */
 
 /* =============================================================================
    Scanlines Effect
-   Horizontal lines that simulate CRT phosphor rows
+   Subtle, high-resolution scanlines
    ============================================================================= */
-
-.crt-scanlines {
-    position: relative;
-}
-
-.crt-scanlines::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg,
-            transparent 0px,
-            transparent 1px,
-            rgba(0, 0, 0, var(--scanline-opacity)) 1px,
-            rgba(0, 0, 0, var(--scanline-opacity)) var(--scanline-size));
-    pointer-events: none;
-    z-index: 9999;
-}
-
-/* Lighter scanlines variant */
-.crt-scanlines-light::before {
-    --scanline-opacity: 0.02;
-}
-
-/* Heavier scanlines variant */
-.crt-scanlines-heavy::before {
-    --scanline-opacity: 0.08;
-}
-
-/* =============================================================================
-   Screen Glow Effect
-   Subtle ambient glow around the screen edges
-   ============================================================================= */
-
 .crt-screen-glow {
     position: relative;
-    box-shadow:
-        inset 0 0 100px rgba(0, 255, 65, 0.03),
-        inset 0 0 50px rgba(0, 255, 65, 0.02);
+    box-shadow: inset 0 0 60px rgba(0, 255, 65, 0.02);
 }
-
-/* =============================================================================
-   Vignette Effect
-   Darkening at the edges like old CRT monitors
-   ============================================================================= */
 
 .crt-vignette::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center,
-            transparent 0%,
-            transparent 60%,
-            rgba(0, 0, 0, 0.3) 100%);
+    background: radial-gradient(circle at center,
+            transparent 50%,
+            rgba(0, 0, 0, 0.4) 100%);
     pointer-events: none;
     z-index: 9998;
 }
 
 /* =============================================================================
-   Flicker Animation
-   Subtle screen flicker effect
+   Subtle Flicker
    ============================================================================= */
 
 @keyframes crt-flicker {
@@ -74,32 +32,8 @@
         opacity: 1;
     }
 
-    5% {
-        opacity: 0.98;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    15% {
-        opacity: 0.97;
-    }
-
-    20% {
-        opacity: 1;
-    }
-
     50% {
-        opacity: 1;
-    }
-
-    55% {
         opacity: 0.99;
-    }
-
-    60% {
-        opacity: 1;
     }
 
     100% {
@@ -108,268 +42,63 @@
 }
 
 .crt-flicker {
-    animation: crt-flicker 4s infinite;
-}
-
-/* More aggressive flicker for effect */
-@keyframes crt-flicker-glitch {
-    0% {
-        opacity: 1;
-    }
-
-    2% {
-        opacity: 0.9;
-    }
-
-    4% {
-        opacity: 1;
-    }
-
-    8% {
-        opacity: 0.95;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    89% {
-        opacity: 1;
-    }
-
-    90% {
-        opacity: 0.85;
-        transform: translateX(1px);
-    }
-
-    91% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-.crt-flicker-glitch {
-    animation: crt-flicker-glitch 8s infinite;
+    animation: crt-flicker 6s infinite;
 }
 
 /* =============================================================================
-   Text Glow Effects
-   Phosphor-like glow on text
+   Text Effects
    ============================================================================= */
 
 .crt-text {
-    text-shadow:
-        0 0 1px var(--crt-green),
-        0 0 2px var(--crt-green-glow);
+    text-shadow: 0 0 2px rgba(0, 255, 65, 0.2);
 }
 
 .crt-text-glow {
-    text-shadow:
-        0 0 2px var(--crt-green),
-        0 0 5px var(--crt-green-glow),
-        0 0 10px var(--crt-green-glow);
-}
-
-.crt-text-glow-intense {
-    text-shadow:
-        0 0 2px var(--crt-green),
-        0 0 5px var(--crt-green-glow),
-        0 0 10px var(--crt-green-glow),
-        0 0 20px var(--crt-green-glow),
-        0 0 40px var(--crt-green-glow);
+    text-shadow: 0 0 5px var(--crt-green-glow);
 }
 
 /* =============================================================================
-   Border Glow Effects
+   Glass Effect (New)
+   Frosted terminal glass
    ============================================================================= */
 
-.crt-border {
-    border: 1px solid var(--crt-green-dark);
-}
-
-.crt-border-glow {
-    border: 1px solid var(--crt-green-dim);
-    box-shadow:
-        0 0 5px var(--crt-green-glow),
-        inset 0 0 5px rgba(0, 255, 65, 0.1);
-}
-
-.crt-border-glow:hover {
-    border-color: var(--crt-green);
-    box-shadow:
-        0 0 10px var(--crt-green-glow),
-        0 0 20px var(--crt-green-glow),
-        inset 0 0 10px rgba(0, 255, 65, 0.15);
+.crt-glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* =============================================================================
-   Screen Curvature Effect (Optional)
-   Simulates the curved glass of old CRT monitors
+   Boot Sequence
    ============================================================================= */
 
-.crt-curved {
-    transform: perspective(1000px) rotateX(1deg);
-    border-radius: 20px / 10px;
-    overflow: hidden;
-}
-
-/* =============================================================================
-   RGB Separation Effect (Chromatic Aberration)
-   For glitchy aesthetics
-   ============================================================================= */
-
-@keyframes rgb-shift {
+@keyframes crt-turn-on {
     0% {
-        text-shadow:
-            -1px 0 rgba(255, 0, 0, 0.3),
-            1px 0 rgba(0, 255, 0, 0.3);
-    }
-
-    50% {
-        text-shadow:
-            1px 0 rgba(255, 0, 0, 0.3),
-            -1px 0 rgba(0, 255, 0, 0.3);
-    }
-
-    100% {
-        text-shadow:
-            -1px 0 rgba(255, 0, 0, 0.3),
-            1px 0 rgba(0, 255, 0, 0.3);
-    }
-}
-
-.crt-rgb-shift {
-    animation: rgb-shift 0.1s infinite;
-}
-
-/* Static RGB separation */
-.crt-chromatic {
-    text-shadow:
-        -0.5px 0 rgba(255, 0, 0, 0.2),
-        0.5px 0 rgba(0, 255, 255, 0.2);
-}
-
-/* =============================================================================
-   Noise Overlay (Optional)
-   Static noise effect
-   ============================================================================= */
-
-.crt-noise::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 9997;
-}
-
-/* =============================================================================
-   Pulse Animation
-   For interactive elements
-   ============================================================================= */
-
-@keyframes crt-pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 5px var(--crt-green-glow);
-    }
-
-    50% {
-        box-shadow: 0 0 15px var(--crt-green-glow), 0 0 30px var(--crt-green-glow);
-    }
-}
-
-.crt-pulse {
-    animation: crt-pulse 2s ease-in-out infinite;
-}
-
-/* =============================================================================
-   Typing Cursor Effect
-   ============================================================================= */
-
-@keyframes blink-cursor {
-
-    0%,
-    50% {
-        opacity: 1;
-    }
-
-    51%,
-    100% {
+        transform: scale(1, 0.002);
+        filter: brightness(30);
         opacity: 0;
-    }
-}
-
-.crt-cursor::after {
-    content: '█';
-    animation: blink-cursor 1s step-end infinite;
-    color: var(--crt-green);
-}
-
-.crt-cursor-underscore::after {
-    content: '_';
-    animation: blink-cursor 1s step-end infinite;
-    color: var(--crt-green);
-}
-
-/* =============================================================================
-   Boot/Power On Effect
-   ============================================================================= */
-
-@keyframes crt-boot {
-    0% {
-        filter: brightness(0);
-        transform: scaleY(0.01);
     }
 
     30% {
-        filter: brightness(2);
-        transform: scaleY(0.01);
+        transform: scale(1, 0.002);
+        filter: brightness(10);
+        opacity: 1;
     }
 
-    50% {
-        filter: brightness(1);
-        transform: scaleY(1);
+    60% {
+        transform: scale(1, 1);
+        filter: brightness(5);
+        opacity: 1;
     }
 
     100% {
+        transform: scale(1, 1);
         filter: brightness(1);
-        transform: scaleY(1);
+        opacity: 1;
     }
 }
 
 .crt-boot {
-    animation: crt-boot 0.5s ease-out forwards;
-}
-
-/* =============================================================================
-   Combined CRT Screen Class
-   Apply multiple effects at once
-   ============================================================================= */
-
-.crt-screen {
-    position: relative;
-    background-color: var(--crt-bg-base);
-    box-shadow:
-        inset 0 0 100px rgba(0, 255, 65, 0.02),
-        0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.crt-screen::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg,
-            transparent 0px,
-            transparent 1px,
-            rgba(0, 0, 0, 0.03) 1px,
-            rgba(0, 0, 0, 0.03) 2px);
-    pointer-events: none;
-    z-index: 9999;
+    animation: crt-turn-on 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
