@@ -192,51 +192,70 @@
 <style>
     .tab-bar {
         height: 32px;
-        background: var(--crt-bg-dark, #0a0a0c);
-        border-bottom: 1px solid var(--crt-border, #1a3a1a);
+        background: #050505;
+        border-bottom: none;
         display: flex;
-        align-items: center;
-        padding: 0 8px;
+        align-items: stretch;
+        padding: 0;
         font-family: var(--font-mono, "JetBrains Mono", monospace);
         flex-shrink: 0;
+        position: relative;
+        z-index: 10;
     }
 
     .tabs-container {
         display: flex;
-        align-items: center;
-        gap: 2px;
+        align-items: stretch;
+        gap: 1px;
         height: 100%;
+        flex: 1;
+        padding-left: 1px;
     }
 
     .tab {
         display: flex;
         align-items: center;
-        gap: 6px;
-        height: 26px;
-        padding: 0 12px;
-        background: transparent;
-        border: 1px solid transparent;
-        border-bottom: none;
-        border-radius: 4px 4px 0 0;
-        color: var(--crt-text-dim, #6a8a6a);
-        font-size: 11px;
+        gap: 8px;
+        height: 100%;
+        padding: 0 16px;
+        background: #0a0a0c;
+        border: none;
+        border-right: 1px solid #151515;
+        color: #5a7a5a;
+        font-size: 10px;
         font-family: inherit;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.1s ease;
+        position: relative;
+        min-width: 100px;
+        max-width: 200px;
     }
 
     .tab:hover {
-        background: rgba(0, 255, 65, 0.08);
-        color: var(--crt-text-primary, #b0d0b0);
+        background: #111;
+        color: #8a9a8a;
     }
 
     .tab.active {
-        background: var(--crt-bg-base, #0d0d0f);
-        border-color: var(--crt-border, #1a3a1a);
-        color: var(--crt-green, #00ff41);
-        text-shadow: 0 0 8px var(--crt-green-glow, rgba(0, 255, 65, 0.4));
+        background: #0f1412;
+        color: #00ff41;
+        border-top: 2px solid #00ff41;
+    }
+
+    .tab.active::before {
+        content: none;
+    }
+
+    .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #0f1412;
     }
 
     .tab-name {
@@ -284,21 +303,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 26px;
-        height: 26px;
+        width: 36px;
+        height: 100%;
         padding: 0;
-        margin-left: 4px;
+        margin: 0;
         background: transparent;
-        border: 1px dashed var(--crt-border, #1a3a1a);
-        border-radius: 4px 4px 0 0;
-        color: var(--crt-text-dim, #6a8a6a);
+        border: none;
+        border-left: 1px solid #151515;
+        color: #5a7a5a;
         cursor: pointer;
         transition: all 0.15s ease;
     }
 
     .tab-add:hover {
         background: rgba(0, 255, 65, 0.1);
-        border-color: var(--crt-green, #00ff41);
         color: var(--crt-green, #00ff41);
     }
 </style>

@@ -29,6 +29,8 @@ export interface PanelInfo {
     title: string;
     /** Icon name from the icon registry */
     icon?: string;
+    /** Short description for search/tooltips */
+    description?: string;
     /** Panel-specific configuration overrides */
     config?: PanelConfig;
 }
@@ -52,16 +54,19 @@ export const panelRegistry: Record<string, PanelInfo> = {
         component: MapPanel,
         title: 'Star Map',
         icon: 'map',
+        description: 'Interactive galactic navigation and exploration',
     },
     PilotPanel: {
         component: PilotPanel,
         title: 'Pilot',
         icon: 'pilot',
+        description: 'Character stats, skills, and progression',
     },
     ShipPanel: {
         component: ShipPanel,
         title: 'Ship',
         icon: 'ship',
+        description: 'Vessel systems, cargo, and equipment',
     },
 };
 

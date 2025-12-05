@@ -18,6 +18,7 @@
 	import { workspaceTabs } from "$lib/stores/workspaceTabs";
 	import FloatingPanel from "$lib/ui/FloatingPanel.svelte";
 	import TabBar from "$lib/ui/TabBar.svelte";
+	import PanelLauncher from "$lib/ui/PanelLauncher.svelte";
 
 	let layoutContainer: HTMLElement;
 	let layoutReady = $state(false);
@@ -341,6 +342,11 @@
 		floatingPanels.close(id);
 	}
 
+	function handleAddPanel(componentType: string) {
+		if (!layoutManager) return;
+		layoutManager.addPanelAsSplit(componentType);
+	}
+
 	onDestroy(() => {
 		unsubscribe();
 		for (const [_, component] of mountedComponents) unmount(component);
@@ -350,10 +356,13 @@
 </script>
 
 <div class="game-container crt-scanlines crt-flicker">
-	<TabBar
-		onTabSwitch={handleTabSwitch}
-		onSaveCurrentLayout={saveCurrentLayout}
-	/>
+	<div class="top-bar">
+		<PanelLauncher onAddPanel={handleAddPanel} />
+		<TabBar
+			onTabSwitch={handleTabSwitch}
+			onSaveCurrentLayout={saveCurrentLayout}
+		/>
+	</div>
 
 	<div bind:this={layoutContainer} class="layout-container">
 		{#if !layoutReady}
@@ -392,6 +401,17 @@
 		background-color: var(--crt-bg-dark);
 		overflow: hidden;
 		position: relative;
+	}
+
+	.top-bar {
+		display: flex;
+		align-items: stretch;
+		background: var(--crt-bg-dark, #0a0a0c);
+		flex-shrink: 0;
+		border-bottom: 1px solid var(--crt-green, #00ff41);
+		margin-bottom: 4px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+		z-index: 20;
 	}
 
 	.layout-container {
