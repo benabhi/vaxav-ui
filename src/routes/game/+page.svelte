@@ -16,6 +16,7 @@
 		type FloatingPanelState,
 	} from "$lib/stores/floatingPanels";
 	import { workspaceTabs } from "$lib/stores/workspaceTabs";
+	import { panelDragState } from "$lib/stores/panelDragState";
 	import FloatingPanel from "$lib/ui/FloatingPanel.svelte";
 	import TabBar from "$lib/ui/TabBar.svelte";
 	import PanelLauncher from "$lib/ui/PanelLauncher.svelte";
@@ -75,6 +76,7 @@
 	}
 
 	let observer: MutationObserver | null = null;
+	let dragObserver: MutationObserver | null = null;
 
 	onMount(() => {
 		if (!layoutContainer) return;
@@ -137,6 +139,109 @@
 			if (observer) observer.disconnect();
 		};
 	});
+
+	// Separate observer for detecting Golden Layout drags
+	onMount(() => {
+		dragObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				// Check for drag proxy being added
+				for (const node of mutation.addedNodes) {
+					if (
+						node instanceof HTMLElement &&
+						node.classList.contains("lm_dragProxy")
+					) {
+						// Extract component info from the drag proxy
+						const titleEl = node.querySelector(".lm_title");
+						const title = titleEl?.textContent?.trim() || "Panel";
+
+						// Find component type from title
+						let componentType = "";
+						for (const [type, info] of Object.entries(
+							panelRegistry,
+						)) {
+							if (info.title === title) {
+								componentType = type;
+								break;
+							}
+						}
+
+						if (componentType) {
+							console.log(
+								"[Game] Drag started:",
+								componentType,
+								title,
+							);
+							panelDragState.startDrag(componentType, title);
+
+							// Start tracking mouse for drop indicator visibility
+							document.addEventListener(
+								"mousemove",
+								trackDragPosition,
+							);
+						}
+					}
+				}
+
+				// Check for drag proxy being removed
+				for (const node of mutation.removedNodes) {
+					if (
+						node instanceof HTMLElement &&
+						node.classList.contains("lm_dragProxy")
+					) {
+						console.log("[Game] Drag ended");
+
+						// Stop tracking and reset indicator visibility
+						document.removeEventListener(
+							"mousemove",
+							trackDragPosition,
+						);
+						document.body.classList.remove(
+							"hide-gl-drop-indicator",
+						);
+
+						// Get pending transfer before clearing state
+						const pendingTransfer = panelDragState.endDrag();
+
+						// If there was a pending transfer, process it after GL is fully done
+						if (pendingTransfer) {
+							console.log(
+								"[Game] Processing pending transfer:",
+								pendingTransfer,
+							);
+							// Use setTimeout to ensure GL has fully completed its operation
+							setTimeout(() => {
+								processPanelTransfer(
+									pendingTransfer.targetTabId,
+									pendingTransfer.componentType,
+									pendingTransfer.title,
+								);
+							}, 50);
+						}
+					}
+				}
+			}
+		});
+
+		dragObserver.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
+
+		return () => {
+			if (dragObserver) dragObserver.disconnect();
+			document.removeEventListener("mousemove", trackDragPosition);
+		};
+	});
+
+	function trackDragPosition(e: MouseEvent) {
+		// Hide GL drop indicator if mouse is in the top-bar area (first 50px)
+		const topBarHeight = 50; // Approximate height of top-bar
+		if (e.clientY < topBarHeight) {
+			document.body.classList.add("hide-gl-drop-indicator");
+		} else {
+			document.body.classList.remove("hide-gl-drop-indicator");
+		}
+	}
 
 	/**
 	 * Recursively clean a layout item by removing resolved properties
@@ -414,6 +519,43 @@
 	function handleAddPanel(componentType: string) {
 		if (!layoutManager) return;
 		layoutManager.addPanelAsSplit(componentType);
+	}
+
+	/**
+	 * Process panel transfer to another workspace tab
+	 * Called AFTER Golden Layout has finished its drag operation
+	 */
+	function processPanelTransfer(
+		targetTabId: string,
+		componentType: string,
+		title: string,
+	) {
+		if (!goldenLayout) return;
+
+		console.log(
+			"[Game] Processing transfer to tab:",
+			targetTabId,
+			componentType,
+		);
+
+		// 1. Find and close the panel from current layout
+		const rootItem = goldenLayout.rootItem;
+		if (rootItem) {
+			const componentItems = findComponentsByType(
+				rootItem,
+				componentType,
+			);
+			if (componentItems.length > 0) {
+				console.log("[Game] Found component, closing it");
+				componentItems[0].close();
+			} else {
+				console.log("[Game] Component not found in current layout!");
+			}
+		}
+
+		// 2. Add panel to target tab's layout config
+		workspaceTabs.addPanelToTab(targetTabId, componentType, title);
+		console.log("[Game] Panel added to target tab:", targetTabId);
 	}
 
 	onDestroy(() => {

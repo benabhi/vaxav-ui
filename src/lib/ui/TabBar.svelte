@@ -3,6 +3,7 @@
         workspaceTabs,
         type WorkspaceTab,
     } from "$lib/stores/workspaceTabs";
+    import { panelDragState } from "$lib/stores/panelDragState";
     import type { LayoutConfig } from "golden-layout";
     import { onMount } from "svelte";
 
@@ -20,7 +21,11 @@
     let activeTabId = $state<string>("default");
     let editingTabId = $state<string | null>(null);
     let editingName = $state("");
+    let isDraggingPanel = $state(false);
+    let hoveredTabId = $state<string | null>(null);
+    let tabElements = new Map<string, HTMLElement>();
     let unsubscribe: (() => void) | null = null;
+    let dragUnsubscribe: (() => void) | null = null;
 
     onMount(() => {
         // Subscribe to store on mount
@@ -29,10 +34,71 @@
             activeTabId = state.activeTabId;
         });
 
+        // Subscribe to drag state
+        dragUnsubscribe = panelDragState.subscribe((state) => {
+            isDraggingPanel = state.isDragging;
+            if (!state.isDragging) {
+                hoveredTabId = null;
+            }
+        });
+
+        // Global mousemove to track hover during GL drag
+        document.addEventListener("mousemove", handleGlobalMouseMove);
+
         return () => {
             if (unsubscribe) unsubscribe();
+            if (dragUnsubscribe) dragUnsubscribe();
+            document.removeEventListener("mousemove", handleGlobalMouseMove);
         };
     });
+
+    function handleGlobalMouseMove(e: MouseEvent) {
+        if (!isDraggingPanel) return;
+
+        // Check if mouse is over any tab
+        const foundTabId = getTabIdAtPosition(e.clientX, e.clientY);
+        if (foundTabId && foundTabId !== activeTabId) {
+            hoveredTabId = foundTabId;
+            // Set pending transfer when over a valid tab
+            const dragState = panelDragState.getState();
+            if (dragState.draggedPanel) {
+                panelDragState.setPendingTransfer(
+                    foundTabId,
+                    dragState.draggedPanel.componentType,
+                    dragState.draggedPanel.title,
+                );
+            }
+        } else {
+            hoveredTabId = null;
+            // Clear pending transfer when not over a valid tab
+            panelDragState.clearPendingTransfer();
+        }
+    }
+
+    function getTabIdAtPosition(x: number, y: number): string | null {
+        for (const [tabId, element] of tabElements) {
+            const rect = element.getBoundingClientRect();
+            if (
+                x >= rect.left &&
+                x <= rect.right &&
+                y >= rect.top &&
+                y <= rect.bottom
+            ) {
+                return tabId;
+            }
+        }
+        return null;
+    }
+
+    // Svelte action to track tab elements
+    function trackTab(node: HTMLElement, tabId: string) {
+        tabElements.set(tabId, node);
+        return {
+            destroy() {
+                tabElements.delete(tabId);
+            },
+        };
+    }
 
     function handleTabClick(tabId: string) {
         if (tabId === activeTabId || editingTabId) return;
@@ -127,6 +193,10 @@
 
         workspaceTabs.removeTab(tabId);
     }
+
+    function isDropTarget(tabId: string): boolean {
+        return isDraggingPanel && tabId !== activeTabId;
+    }
 </script>
 
 <div class="tab-bar">
@@ -136,12 +206,15 @@
             <div
                 class="tab"
                 class:active={tab.id === activeTabId}
+                class:drop-target={isDropTarget(tab.id)}
+                class:drop-hover={hoveredTabId === tab.id}
                 role="tab"
                 tabindex="0"
                 aria-selected={tab.id === activeTabId}
                 onclick={() => handleTabClick(tab.id)}
                 ondblclick={() => handleDoubleClick(tab.id, tab.name)}
                 onkeydown={(e) => e.key === "Enter" && handleTabClick(tab.id)}
+                use:trackTab={tab.id}
             >
                 {#if editingTabId === tab.id}
                     <!-- svelte-ignore a11y_autofocus -->
@@ -253,6 +326,44 @@
         right: 0;
         height: 1px;
         background: transparent;
+    }
+
+    /* Drop target styles - when a panel is being dragged */
+    .tab.drop-target {
+        border: 1px dashed rgba(0, 255, 65, 0.4);
+        border-right: 1px dashed rgba(0, 255, 65, 0.4);
+        background: rgba(0, 255, 65, 0.03);
+    }
+
+    .tab.drop-target:not(.active)::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            90deg,
+            rgba(0, 255, 65, 0.1) 0%,
+            transparent 100%
+        );
+        pointer-events: none;
+        animation: pulse-glow 1.5s ease-in-out infinite;
+    }
+
+    .tab.drop-hover {
+        background: rgba(0, 255, 65, 0.2) !important;
+        border-color: var(--crt-green) !important;
+        color: var(--crt-green) !important;
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        transform: scale(1.03);
+    }
+
+    @keyframes pulse-glow {
+        0%,
+        100% {
+            opacity: 0.5;
+        }
+        50% {
+            opacity: 1;
+        }
     }
 
     .tab-name {

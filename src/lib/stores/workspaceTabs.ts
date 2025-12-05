@@ -164,6 +164,65 @@ function createWorkspaceTabsStore() {
         },
 
         /**
+         * Add a panel config to a specific tab's layout
+         */
+        addPanelToTab: (tabId: string, componentType: string, title: string) => {
+            store.update(state => {
+                const tab = state.tabs.find(t => t.id === tabId);
+                if (!tab) return state;
+
+                // Clone the layout config
+                const layoutConfig = JSON.parse(JSON.stringify(tab.layoutConfig)) as any;
+
+                // Create the new component config
+                const newComponent = {
+                    type: 'component',
+                    componentType: componentType,
+                    title: title,
+                };
+
+                // Add to the layout
+                if (!layoutConfig.root) {
+                    layoutConfig.root = { type: 'row', content: [] };
+                }
+
+                if (!layoutConfig.root.content) {
+                    layoutConfig.root.content = [];
+                }
+
+                // If empty, add as first stack
+                if (layoutConfig.root.content.length === 0) {
+                    layoutConfig.root.content.push({
+                        type: 'stack',
+                        content: [newComponent]
+                    });
+                } else {
+                    // Add to existing first stack or create new one
+                    const firstItem = layoutConfig.root.content[0];
+                    if (firstItem.type === 'stack') {
+                        firstItem.content = firstItem.content || [];
+                        firstItem.content.push(newComponent);
+                    } else {
+                        // Wrap everything in a row with the new component
+                        layoutConfig.root.content.push({
+                            type: 'stack',
+                            content: [newComponent]
+                        });
+                    }
+                }
+
+                console.log('[Store] addPanelToTab:', tabId, componentType, layoutConfig);
+
+                return {
+                    ...state,
+                    tabs: state.tabs.map(t =>
+                        t.id === tabId ? { ...t, layoutConfig } : t
+                    ),
+                };
+            });
+        },
+
+        /**
          * Reset to default state
          */
         reset: () => {

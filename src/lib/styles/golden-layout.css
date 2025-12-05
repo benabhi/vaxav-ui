@@ -312,6 +312,7 @@
     background: rgba(0, 255, 65, 0.1) !important;
     border: 1px solid var(--gl-accent) !important;
     box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.2);
+    transition: opacity 0.1s ease, visibility 0.1s ease;
 }
 
 /* Maximized State */
@@ -328,4 +329,10 @@
 .lm_stack.lm_focused {
     border-color: var(--gl-border-bright);
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
+}
+
+/* Hide drop indicator when dragging to navbar area */
+body.hide-gl-drop-indicator .lm_dropTargetIndicator {
+    opacity: 0 !important;
+    visibility: hidden !important;
 }
